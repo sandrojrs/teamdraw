@@ -79,11 +79,17 @@ class JogadoresController extends Controller
 
             foreach ($request->get('jogador_id') as  $value) {
 
-            $model = new presenca();
-            $model->jogador_id = $value;
-            $model->date = $request->get('date');
-            $model->presenca =  0;
-            $model->save();
+            if (!presenca::where([
+                ['jogador_id', $value],
+                ['date',$request->get('date')]
+                ])->exists()) {
+                $model = new presenca();
+                $model->jogador_id = $value;
+                $model->date = $request->get('date');
+                $model->presenca = $request->get('presenca') ? 1 : 0 ;
+                $model->save();
+
+                }
 
             }
 
