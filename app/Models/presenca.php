@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class presenca extends Model
 {
-    use HasFactory;
-    protected $fillable=['presenca', 'date',];
+    protected $fillable=['presenca', 'date'];
+    protected $dates = ['date'];
 
     public function jogadores(){
 

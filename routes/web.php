@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SorteioController;
+use App\Http\Controllers\PresencaController;
 use App\Http\Controllers\JogadoresController;
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +15,15 @@ use App\Http\Controllers\JogadoresController;
 |
 */
 
-Route::get('/', function () {
-    return view('jogadores');
-});
- Route::resource('jogadores', JogadoresController::class);
-Route::get('/presenca', [JogadoresController::class, 'index_presenca'])->name('presenca');
-Route::post('/presenca', [JogadoresController::class, 'storePresenca'])->name('presenca.save');
+// Route::get('/', function () {
+//     return view('jogadores');
+// });
+// route controller time 
+
+ Route::resources([
+      'jogadores'=> JogadoresController::class,
+      'presenca'=> PresencaController::class, 
+      'sorteio'=> SorteioController::class    
+ ]);
+ Route::any('presenca.search', [PresencaController::class, 'index'])->name('presenca.search');
+ Route::post('sorteio.rand', [SorteioController::class, 'sorteio'])->name('sorteio.rand');

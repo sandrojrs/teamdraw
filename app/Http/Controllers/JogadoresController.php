@@ -16,12 +16,7 @@ class JogadoresController extends Controller
         $jogadores =jogadores::all();
         return view('jogadores', compact('jogadores'));
     }
-    public function index_presenca()
-    {
-        $presencas = presenca::all();
-        $jogadores = jogadores::all();
-        return view('presenca', compact('presencas', 'jogadores'));
-    }
+    
 
     public function create()
     {
@@ -60,52 +55,6 @@ class JogadoresController extends Controller
         }
 
     }
-
-    public function storePresenca(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'jogador_id' => 'required',
-            'date' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()
-            ->back()
-            ->with('error',$validator->errors()->first());
-        }
-
-        try {
-            DB::beginTransaction();
-
-            foreach ($request->get('jogador_id') as  $value) {
-
-            if (!presenca::where([
-                ['jogador_id', $value],
-                ['date',$request->get('date')]
-                ])->exists()) {
-                $model = new presenca();
-                $model->jogador_id = $value;
-                $model->date = $request->get('date');
-                $model->presenca = $request->get('presenca') ? 1 : 0 ;
-                $model->save();
-
-                }
-
-            }
-
-            DB::commit();
-
-            return redirect()
-            ->back()
-            ->with('success', 'Jogador cadastrado com sucesso');
-        } catch (\PDOException $e) {
-            return redirect()
-            ->back()
-            ->with('error', $e);
-        }
-
-    }
-
 
     public function show(jogadores $jogadores)
     {
