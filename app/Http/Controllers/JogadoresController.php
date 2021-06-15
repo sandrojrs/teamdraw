@@ -58,7 +58,7 @@ class JogadoresController extends Controller
 
     public function show(jogadores $jogadores)
     {
-        //
+      dd('oi');
     }
 
 
@@ -70,12 +70,37 @@ class JogadoresController extends Controller
 
     public function update(Request $request, jogadores $jogadores)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            $jogadores = jogadores::find($request->get('id'));
+            $jogadores->fill($request->all());
+            $jogadores->save();
+
+            DB::commit();
+
+            return redirect()
+            ->back()
+            ->with('success', 'Jogador Atualizado com sucesso');
+        } catch (\PDOException $e) {
+            return redirect()
+            ->back()
+            ->with('error', $e);
+        }
+
     }
-
-
-    public function destroy(jogadores $jogadores)
+    public function destroy($id)
     {
-        //
+        try {          
+            $jogador = jogadores::findOrFail($id);
+            $jogador->delete();
+            return redirect()
+            ->back()
+            ->with('success', 'Jogador excluido com sucesso');
+        } catch (\PDOException $e) {
+            return redirect()
+            ->back()
+            ->with('error', $e);
+        }
     }
 }

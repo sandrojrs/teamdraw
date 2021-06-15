@@ -19,7 +19,7 @@ class SorteioService
     public function sorteioData($num)
     {
         $result = $this->sorteioRepository->sorteio($num);
-        if ($result== true){
+        if ($result){
             return $result;
         }
         return false;
