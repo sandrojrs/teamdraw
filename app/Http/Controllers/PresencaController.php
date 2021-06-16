@@ -13,10 +13,11 @@ class PresencaController extends Controller
     public function index(Request $request)    
     {
        if(!$request->get('date')){
-         $date = date("y-m-d");
+         $date = date("Y-m-d");
        } else{
            $date = $request->get('date');
        }    
+       dd($date);
         $presencas = presenca::where('date', $date)->get();
         $jogadores = jogador::all();
         return view('presenca', compact('presencas', 'jogadores'));
