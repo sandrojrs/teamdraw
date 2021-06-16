@@ -10,13 +10,15 @@ use Illuminate\Support\Facades\Validator;
 
 class PresencaController extends Controller
 {
-    public function index(Request $request)    
+    public function index(Request $request)
     {
+       //verifica se o input date esta passando algum dado caso não esteja retorna a data atual
        if(!$request->get('date')){
          $date = date("Y-m-d");
        } else{
            $date = $request->get('date');
-       }    
+       }
+        //pesquisa pela data na tabela presenca e retorna para a view
         $presencas = presenca::where('date', $date)->get();
         $jogadores = jogador::all();
         return view('presenca', compact('presencas', 'jogadores'));
@@ -24,22 +26,28 @@ class PresencaController extends Controller
 
     public function store(Request $request)
     {
+        //verifica se o jogador_id e date foram preenchidos
         $validator = Validator::make($request->all(), [
             'jogador_id' => 'required',
             'date' => 'required',
         ]);
-
+        //caso validator for vazio retorna o primeiro erro
         if ($validator->fails()) {
             return redirect()
             ->back()
             ->with('error',$validator->errors()->first());
         }
 
+        // inicia o try/catch
         try {
+
+             // inicia uma transação
             DB::beginTransaction();
 
+            // faz um laço para verificar os jogadores marcados
             foreach ($request->get('jogador_id') as  $value) {
 
+            // verifica se o jogador e a data ja existe
             if (!presenca::where([
                 ['jogador_id', $value],
                 ['date',$request->get('date')]
@@ -52,6 +60,7 @@ class PresencaController extends Controller
                 }
             }
 
+             //se ocorrer erros reverter a gravação de dados , se não continua
             DB::commit();
 
             return redirect()
@@ -63,11 +72,11 @@ class PresencaController extends Controller
             ->with('error', $e);
         }
     }
-    
+
     public function update(Request $request, presenca $presenca)
     {
         try {
-            DB::beginTransaction();         
+            DB::beginTransaction();
             $presenca->fill($request->all());
             $presenca->presenca = $request->get('presenca') ? 1 : 0 ;
             $presenca->save();
@@ -84,6 +93,7 @@ class PresencaController extends Controller
         }
     }
     public function destroy(presenca $presenca){
+        // se o delete for feito com sucesso retorna para a view
        if($presenca->delete()){
             return redirect()
             ->back()
@@ -91,7 +101,7 @@ class PresencaController extends Controller
        }else{
             return redirect()
             ->back()
-            ->with('error', ''); 
+            ->with('error', '');
        };
     }
 }
