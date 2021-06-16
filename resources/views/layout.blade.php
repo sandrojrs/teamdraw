@@ -20,9 +20,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="{{ route('sorteio.index') }}">Sorteio</a>
-                    <a class="nav-link" href="{{ route('jogador.index') }}">Jogadores</a>
+                    <a class="nav-link active" href="{{ route('jogador.index') }}">Jogadores</a>
                     <a class="nav-link" href="{{ route('presenca.index') }}">Presença</a>
+                    <a class="nav-link" aria-current="page" href="{{ route('sorteio.index') }}">Sorteio</a>
                 </div>
             </div>
         </div>
