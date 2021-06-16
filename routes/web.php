@@ -15,13 +15,13 @@ use App\Http\Controllers\JogadoresController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('jogadores');
-// });
+Route::get('/', function () {
+    return view('jogadores');
+});
 // route controller time 
 
  Route::resources([
-      'jogadores'=> JogadoresController::class,
+      'jogador'=> JogadoresController::class,
       'presenca'=> PresencaController::class, 
       'sorteio'=> SorteioController::class    
  ]);

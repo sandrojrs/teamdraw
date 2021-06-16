@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\jogadores;
-use App\Models\presenca;
+use App\Models\jogador;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -13,16 +12,10 @@ class JogadoresController extends Controller
 
     public function index()
     {
-        $jogadores =jogadores::all();
+        $jogadores =jogador::all();
         return view('jogadores', compact('jogadores'));
     }
     
-
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -39,7 +32,7 @@ class JogadoresController extends Controller
         try {
             DB::beginTransaction();
 
-            $model = new Jogadores();
+            $model = new Jogador();
             $model->fill($request->all());
             $model->save();
 
@@ -56,24 +49,12 @@ class JogadoresController extends Controller
 
     }
 
-    public function show(jogadores $jogadores)
-    {
-      dd('oi');
-    }
-
-
-    public function edit(jogadores $jogadores)
-    {
-        //
-    }
-
-
-    public function update(Request $request, jogadores $jogadores)
+    public function update(Request $request, jogador $jogadores)
     {
         try {
             DB::beginTransaction();
 
-            $jogadores = jogadores::find($request->get('id'));
+            $jogadores = jogador::find($request->get('id'));
             $jogadores->fill($request->all());
             $jogadores->save();
 
@@ -89,18 +70,16 @@ class JogadoresController extends Controller
         }
 
     }
-    public function destroy($id)
+    public function destroy(jogador $jogador)
     {
-        try {          
-            $jogador = jogadores::findOrFail($id);
-            $jogador->delete();
+        if($jogador->delete()){
             return redirect()
             ->back()
-            ->with('success', 'Jogador excluido com sucesso');
-        } catch (\PDOException $e) {
+            ->with('success', 'Jogador Atualizado com sucesso');
+       }else{
             return redirect()
             ->back()
-            ->with('error', $e);
-        }
+            ->with('error', 'falha ao excluir'); 
+       };
     }
 }

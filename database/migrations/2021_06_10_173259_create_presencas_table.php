@@ -14,7 +14,7 @@ class CreatePresencasTable extends Migration
             $table->unsignedBigInteger('jogador_id');
             $table->boolean('presenca')->default(0);
             $table->date('date');
-            $table->foreign('jogador_id')->references('id')->on('jogadores');
+            $table->foreign('jogador_id')->references('id')->on('jogador');
             $table->timestamps();
         });
     }

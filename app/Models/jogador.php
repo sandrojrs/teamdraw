@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class jogadores extends Model
+class jogador extends Model
 {
     use HasFactory;
-    protected $fillable=['name', 'level', 'goalkeeper'];
-
+    protected $table ="jogador";
+    protected $fillable=['id', 'name', 'level', 'goalkeeper'];
 }

@@ -21,10 +21,12 @@ class SorteioController extends Controller
     public function sorteio(Request $request)
     {
         try {
-            $num = $request->get('num') ? : 0 ;          
-            $sorteios = $this->sorteioService->sorteioData($num);            
-            return view('sorteio', compact('sorteios'));
-            return back();
+            $num = $request->get('num') ? : 0 ;         
+            $sorteios = $this->sorteioService->sorteioData($num);             
+            if (!isset($sorteios)){
+                return redirect('/sorteio')->with('error', 'Altere o valor para a quantidade que forme um time!');
+            }             
+            return view('sorteio', compact('sorteios'));           
             
             } catch (ModelNotFoundException $exception) {
                     return back()->withError($exception->getMessage())->withInput();

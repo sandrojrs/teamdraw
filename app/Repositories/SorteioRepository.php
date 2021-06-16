@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\presenca;
-use App\Models\jogadores;
+use App\Models\jogador;
 
 class SorteioRepository
 {
@@ -20,28 +20,28 @@ class SorteioRepository
            }else{
               $jogadores[] = $value->jogador_id;
                 }
-        }
-        dd($goleiros);
-        shuffle($jogadores);
-        array_unshift($jogadores, $goleiros[0]);
-        
-        // foreach( as $key => $goleiro){
-        //     array_splice( $jogadores, $num * $key, 0, $goleiro[$key + 1] );       
-        // }
-       
+        }     
         $number = $num * 2;
-        $presente = count($presentes);
+        $presente = count($jogadores ) + 2;
+        
+        if(count($goleiros) >= 2 && $number <= $presente){ 
 
-        // if(count($goleiros) <= 2 && $number <= $presente){         
-            $object = array_map(function($jogador){
-                $jogador = jogadores::find($jogador);               
-                return $jogador;
-              }, array_chunk($jogadores, $num));      
-              dd($object);
-              return $object;        
-
-           
-        // }else{
-        //     return false;
+        shuffle($jogadores);
+        array_unshift($jogadores, $goleiros[0]); 
+        array_splice( $jogadores, $num, 0, $goleiros[1] );  
+        if (count($goleiros) > 2){    
+            for($i= 1; $i <= count($goleiros) - 2; $i++){            
+                $jogadores[count($jogadores) ] = $goleiros[$i + 1 ];
+            }
+        }             
+        
+        $object = array_map(function($jogador){             
+            $jogador = jogador::find($jogador);               
+            return $jogador;
+            }, array_chunk($jogadores, $num));            
+            return $object;  
+        } else{
+            return;
+        }
     }
 }

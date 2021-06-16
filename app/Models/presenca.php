@@ -12,7 +12,7 @@ class presenca extends Model
 
     public function jogadores(){
 
-        return $this->hasOne(jogadores::class, 'id', 'jogador_id');
+        return $this->hasOne(jogador::class, 'id', 'jogador_id');
 
     }
 }

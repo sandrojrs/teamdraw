@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\presenca;
-use App\Models\jogadores;
+use App\Models\jogador;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -18,7 +18,7 @@ class PresencaController extends Controller
            $date = $request->get('date');
        }    
         $presencas = presenca::where('date', $date)->get();
-        $jogadores = jogadores::all();
+        $jogadores = jogador::all();
         return view('presenca', compact('presencas', 'jogadores'));
     }
 
@@ -49,9 +49,7 @@ class PresencaController extends Controller
                 $model->date = $request->get('date');
                 $model->presenca = $request->get('presenca') ? 1 : 0 ;
                 $model->save();
-
                 }
-
             }
 
             DB::commit();
@@ -64,7 +62,36 @@ class PresencaController extends Controller
             ->back()
             ->with('error', $e);
         }
-
     }
+    
+    public function update(Request $request, presenca $presenca)
+    {
+        try {
+            DB::beginTransaction();         
+            $presenca->fill($request->all());
+            $presenca->presenca = $request->get('presenca') ? 1 : 0 ;
+            $presenca->save();
+            DB::commit();
 
+            return redirect()
+            ->back()
+            ->with('success', 'Jogador Atualizado com sucesso');
+
+        } catch (\PDOException $e) {
+            return redirect()
+            ->back()
+            ->with('error', $e);
+        }
+    }
+    public function destroy(presenca $presenca){
+       if($presenca->delete()){
+            return redirect()
+            ->back()
+            ->with('success', 'Jogador Atualizado com sucesso');
+       }else{
+            return redirect()
+            ->back()
+            ->with('error', ''); 
+       };
+    }
 }

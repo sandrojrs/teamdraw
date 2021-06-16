@@ -13,7 +13,7 @@ class CreateJogadoresTable extends Migration
      */
     public function up()
     {
-        Schema::create('jogadores', function (Blueprint $table) {
+        Schema::create('jogador', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->integer('level');

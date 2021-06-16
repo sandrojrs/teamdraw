@@ -3,7 +3,7 @@
 
     <div class="card mt-4">
         <div class="card-body">
-            <form class="row g-3" action="{{ route('jogadores.store') }}" method="POST">
+            <form class="row g-3" action="{{ route('jogador.store') }}" method="POST">
                 @csrf
                 <div class="col-md-4">
                     <label for="name" class="form-label">Nome</label>
@@ -46,9 +46,8 @@
                                     data-target="#modal-jogadores" data-id="{{ $jogador->id }}"
                                     data-name="{{ $jogador->name }}" data-level="{{ $jogador->level }}"
                                     data-goalkeeper="{{ $jogador->goalkeeper }}"
-                                    data-action="{{ route('jogadores.update', $jogador->id) }}">Atualizar</a>
-                                {!! Form::open(['method' => 'DELETE', 'url' => route('jogadores.destroy', $jogador->id), 'style' => 'display:inline']) !!}
-                                
+                                    data-action="{{ route('jogador.update', $jogador->id) }}">Atualizar</a>
+                                {!! Form::open(['method' => 'DELETE', 'url' => route('jogador.destroy', $jogador->id), 'style' => 'display:inline']) !!}
                                 {!! Form::button('<i class="ft-trash"></i>delete', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm', 'title' => 'Delete Post', 'onclick' => 'return confirm("Confirm delete?")']) !!}
                                 {!! Form::close() !!}
                             </td>
@@ -81,7 +80,6 @@
             </div>
     </x-modal>
     </form>
-
     <script src="https://code.jquery.com/jquery-3.6.0.js" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function() {

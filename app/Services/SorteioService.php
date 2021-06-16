@@ -3,12 +3,9 @@
 namespace App\Services;
 
 use App\Repositories\SorteioRepository;
-use Illuminate\Http\Request;
-
 
 class SorteioService
 {
-
     protected $sorteioRepository;
 
     public function __construct(SorteioRepository  $sorteioRepository)
@@ -22,7 +19,7 @@ class SorteioService
         if ($result){
             return $result;
         }
-        return false;
+        return;
     }
   
 }

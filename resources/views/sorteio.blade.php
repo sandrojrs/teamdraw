@@ -1,13 +1,13 @@
 @extends('layout')
 @section('content')
-
     <div class="card mt-4">
         <div class="card-body">
             <form class="form-inline" method="POST" action="{{ route('sorteio.rand') }}">
                 @csrf
                 <div class="form-group ">
                     <div class="col-md-5 col-sm-5 col-xs-5">
-                        <input type="number" class="form-control" name="num" placeholder="defina o numero de jogadores">
+                        <input type="number" class="form-control" min=2 name="num"
+                            placeholder="defina o numero de jogadores" required>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary ">Sortear</button>
@@ -39,5 +39,4 @@
             </table>
         </div>
     </div>
-
 @endsection

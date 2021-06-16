@@ -53,18 +53,64 @@
                             <td>{{ $presenca->jogadores->name }}</td>
                             <td>{{ $presenca->date->format('d/m/Y') }}</td>
                             <td>{{ $presenca->presenca == 1 ? 'Presente' : 'Faltou' }}</td>
-                            <td>editar, deletar</td>
+                            <td>
+                                <a href="#modal-presenca" type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                    data-target="#modal-presenca" data-id="{{ $presenca->id }}"
+                                    data-date="{{ $presenca->date }}" data-presenca="{{ $presenca->presenca }}"
+                                    data-action="{{ route('presenca.update', $presenca->id) }}">Atualizar</a>
+                                {!! Form::open(['method' => 'DELETE', 'url' => route('presenca.destroy', $presenca->id), 'style' => 'display:inline']) !!}
+                                {!! Form::button('<i class="ft-trash"></i>delete', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm', 'title' => 'Delete Post', 'onclick' => 'return confirm("Confirm delete?")']) !!}
+                                {!! Form::close() !!}
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
     </div>
+    <x-modal id="modal-presenca">
+        <form class="row g-3" action="" method="POST" id="form-presenca">
+            @method('PATCH');
+            @csrf
+            <div class="col-md-6">
+                <label for="name" class="form-label">Data</label>
+                <input name="date" type="date" class="form-control" id="date_modal" required>
+            </div>
+            <div class="col-md-2">
+                <label for="inputPassword4" class="form-label">Presença</label>
+                <div class="form-check pt-1">
+                    <input class="form-check-input" type="checkbox" value="1" id="presenca_modal" name="presenca">
+                </div>
+            </div>
+    </x-modal>
+    </form>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" crossorigin="anonymous"></script>
     <script>
         window.addEventListener('load', function() {
             var data = document.getElementById('date');
             data.value = new Date().toLocaleDateString('en-CA');
         })
+
+        $(document).ready(function() {
+            $('#modal-presenca').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget)
+                var id = button.data('id')
+                var date = button.data('date')
+                var dateFormatada = date.replace(/(\d*)-(\d*)-(\d*).*/, '$1-$2-$3');
+                var presenca = button.data('presenca')
+                var action = button.data(action)
+                var modal = $(this)
+                console.log(dateFormatada)
+                modal.find('#id').val(id)
+                modal.find('#date_modal').val(dateFormatada)
+                $("#form-presenca").attr("action", action.action); //Will set it
+                if (presenca == 1) {
+                    $('#presenca_modal').prop('checked', true);
+                } else {
+                    $('#presenca_modal').prop('checked', false);
+                }
+            })
+        });
 
     </script>
 @endsection
