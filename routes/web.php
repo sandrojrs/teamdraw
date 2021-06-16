@@ -16,7 +16,7 @@ use App\Http\Controllers\JogadoresController;
 */
 
 Route::get('/', function () {
-    return view('jogadores');
+    return redirect()->route('jogador');
 });
 // route controller time 
 
