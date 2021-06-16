@@ -17,7 +17,6 @@ class PresencaController extends Controller
        } else{
            $date = $request->get('date');
        }    
-       dd($date);
         $presencas = presenca::where('date', $date)->get();
         $jogadores = jogador::all();
         return view('presenca', compact('presencas', 'jogadores'));
