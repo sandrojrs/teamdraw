@@ -35,24 +35,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($jogadores as $jogador)
-                        <tr>
-                            <th scope="row">{{ $jogador->id }}</th>
-                            <td>{{ $jogador->name }}</td>
-                            <td>{{ $jogador->level }}</td>
-                            <td>{{ $jogador->goalkeeper == 1 ? 'Sim' : 'Não' }}</td>
-                            <td>
-                                <a href="#modal-jogadores" type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                    data-target="#modal-jogadores" data-id="{{ $jogador->id }}"
-                                    data-name="{{ $jogador->name }}" data-level="{{ $jogador->level }}"
-                                    data-goalkeeper="{{ $jogador->goalkeeper }}"
-                                    data-action="{{ route('jogador.update', $jogador->id) }}">Atualizar</a>
-                                {!! Form::open(['method' => 'DELETE', 'url' => route('jogador.destroy', $jogador->id), 'style' => 'display:inline']) !!}
-                                {!! Form::button('<i class="ft-trash"></i>delete', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm', 'title' => 'Delete Post', 'onclick' => 'return confirm("Confirm delete?")']) !!}
-                                {!! Form::close() !!}
-                            </td>
-                        </tr>
-                    @endforeach
+                    @if (isset($jogadores))
+                        @foreach ($jogadores as $jogador)
+                            <tr>
+                                <th scope="row">{{ $jogador->id }}</th>
+                                <td>{{ $jogador->name }}</td>
+                                <td>{{ $jogador->level }}</td>
+                                <td>{{ $jogador->goalkeeper == 1 ? 'Sim' : 'Não' }}</td>
+                                <td>
+                                    <a href="#modal-jogadores" type="button" class="btn btn-primary btn-sm"
+                                        data-toggle="modal" data-target="#modal-jogadores" data-id="{{ $jogador->id }}"
+                                        data-name="{{ $jogador->name }}" data-level="{{ $jogador->level }}"
+                                        data-goalkeeper="{{ $jogador->goalkeeper }}"
+                                        data-action="{{ route('jogador.update', $jogador->id) }}">Atualizar</a>
+                                    {!! Form::open(['method' => 'DELETE', 'url' => route('jogador.destroy', $jogador->id), 'style' => 'display:inline']) !!}
+                                    {!! Form::button('<i class="ft-trash"></i>delete', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm', 'title' => 'Delete Post', 'onclick' => 'return confirm("Confirm delete?")']) !!}
+                                    {!! Form::close() !!}
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
